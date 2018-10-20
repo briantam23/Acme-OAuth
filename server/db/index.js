@@ -10,8 +10,8 @@ User.hasMany(Address);
 const syncAndSeed = () => {
     let moe, address1, address2;
     conn.sync({ force: true })
-        .then(() => Promise.all([
-            User.create({ name: 'Moe' })
+/*         .then(() => Promise.all([
+            User.create({ name: 'moe' })
         ]))
         .then(users => {
             [moe, larry] = users;
@@ -23,7 +23,7 @@ const syncAndSeed = () => {
         .then(addresses => {
             [address1, address2] = addresses;
             moe.setAddresses(address1, address2);
-        })
+        }) */
 }
 
 

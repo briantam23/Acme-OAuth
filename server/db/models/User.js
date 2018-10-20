@@ -8,6 +8,13 @@ const User = conn.define('user', {
         validate: {
             notEmpty: true
         }
+    },
+    githubUserId: {
+        type: conn.Sequelize.INTEGER,
+        allowNull: false,
+        validate: {
+            notEmpty: true
+        }
     }
 })
 

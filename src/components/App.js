@@ -35,7 +35,7 @@ class App extends Component {
                 <br/>
                 <h1>Acme-OAuth</h1>
                 <br/>
-                <Button color='primary' >Login to Github to Create an Address Book!</Button>
+                <Button href='/api/auth/github/' color='primary' >Login to Github to Create an Address Book!</Button>
             {   
                 users[0] ? (
                     <Fragment>
