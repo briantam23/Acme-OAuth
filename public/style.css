@@ -1,0 +1,23 @@
+#root {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 80px;
+    margin-right: 80px;
+}
+
+input {
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    width: 600px;
+    height: 37px;
+}
+
+body {
+    background-image: url(backgroundImage.jpg);
+    background-color: lightblue;
+    height: 0px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
