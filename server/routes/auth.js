@@ -10,6 +10,8 @@ router.get('/github', (req, res, next) => {
     res.redirect(url);
 })
 
+let userId;
+
 router.get('/github/callback', async(req, res, next) => {
     try{
         let response = await axios.post('https://github.com/login/oauth/access_token', {
@@ -30,7 +32,7 @@ router.get('/github/callback', async(req, res, next) => {
         }
         let user = await User.findOne({ where: attr });
         if(!user) {
-            attr.name = `github: ${login}`;
+            attr.name = `${login}`;
             user = await User.create(attr);
         }
         const token = jwt.encode({ id: user.id }, process.env.JWT_SECRET)

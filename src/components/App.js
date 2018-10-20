@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Button, ListGroup, ListGroupItem } from 'reactstrap';
-import { loadInitialAddresses, loadInitialUsers, createAddress, deleteAddress } from '../store/actions';
+import { setAuth, deleteAuth, createAddress, deleteAddress } from '../store/actions';
 
 
 class App extends Component {
@@ -14,61 +14,59 @@ class App extends Component {
         this.handleAdd = this.handleAdd.bind(this);
     }
     componentDidMount() {
-        const { loadInitialAddresses, loadInitialUsers } = this.props;
-        loadInitialAddresses()
-            .then(() => loadInitialUsers())
+        const { setAuth } = this.props;
+        setAuth();
     }
     handleChange(e) {
         this.setState({ addressName: e.target.value });
     }
-    handleAdd() {
+    handleAdd(auth) {
         const { createAddress } = this.props;
-        createAddress(this.state);
+        createAddress(this.state, auth);
         this.setState({ addressName: '' }); 
     }
     render() {
-        const { addresses, users, createAddress, deleteAddress } = this.props;
+        const { addresses, auth, deleteAuth, createAddress, deleteAddress } = this.props;
         const { handleChange, handleAdd } = this;
         const { addressName } = this.state;
         return(
             <Fragment>
                 <br/>
                 <h1>Acme-OAuth</h1>
-                <br/>
-                <Button href='/api/auth/github/' color='primary' >Login to Github to Create an Address Book!</Button>
+                <hr/><br/>
             {   
-                users[0] ? (
-                    <Fragment>
-                        <hr/><br/>
-                        <h2>Welcome { users[0].name }!</h2>
-                        <Button color='danger' >Logout</Button>
-                        <hr/>
-                        <form>
-                            <input onChange={ handleChange } value={ addressName } placeholder='Enter a Location' autoFocus ></input>
-                            <Button color='primary' disabled={ !addressName }  onClick={ () => handleAdd() } >Add</Button>
-                        </form>
-                        <br/>
-                        <ListGroup>
-                    {
-                        addresses.map(address => (
-                            <ListGroupItem key={ address.id }>
-                                { address.addressName }
-                                <Button onClick={ () => deleteAddress(address) } color='danger' style={{ float: 'right' }} >Delete</Button>
-                            </ListGroupItem>
-                        ))
-                    }
-                        </ListGroup>
-                    </Fragment>
-                ) : null
+                !auth.name ? <Button href='/api/auth/github/' color='primary' >Login to Github to Create an Address Book!</Button>
+                    : (                    
+                        <Fragment>
+                            <h2 style={{ color: 'white' }} >Welcome { auth.name }!</h2>
+                            <Button onClick={ () => deleteAuth(auth) } color='danger' >Logout</Button>
+                            <hr/>
+                            <form>
+                                <input onChange={ handleChange } value={ addressName } placeholder='Enter a Location' autoFocus ></input>
+                                <Button color='primary' disabled={ !addressName }  onClick={ () => handleAdd(auth) } >Add</Button>
+                            </form>
+                            <br/>
+                            <ListGroup>
+                        {
+                            auth.addresses.map(address => (
+                                <ListGroupItem key={ address.id }>
+                                    { address.addressName }
+                                    <Button onClick={ () => deleteAddress(address) } color='danger' style={{ float: 'right' }} >Delete</Button>
+                                </ListGroupItem>
+                            ))
+                        }
+                            </ListGroup>
+                        </Fragment>
+                    )
             }
             </Fragment>
         )
     }
 }
 
-const mapStateToProps = ({ addresses, users }) => ({ addresses, users });
+const mapStateToProps = ({ addresses, auth }) => ({ addresses, auth });
 
-const mapDispatchToProps = ({ loadInitialAddresses, loadInitialUsers, createAddress, deleteAddress });
+const mapDispatchToProps = ({ setAuth, deleteAuth, createAddress, deleteAddress });
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

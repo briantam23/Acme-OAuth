@@ -1,14 +1,14 @@
 <html>
     <head>
         <link href='/public/style.css' rel='stylesheet'>
-        <script src='/public/bundle.js' defer></script>
-        <script>
+        <script defer>
             const token='<%= token %>';
             if(token) {
                 window.localStorage.setItem('token', token);
                 window.location.search = '';   
             }
         </script>
+        <script src='/public/bundle.js' defer></script>
     </head>
     <body>
         <div id='root'></div>

@@ -1,22 +1,10 @@
 const Router = require('express').Router();
-const { User } = require('../db').models;
+const { User, Address } = require('../db').models;
 
 
 Router.get('/', (req, res, next) => {
-    User.findAll()
-        .then(users => res.send(users))
-        .catch(next)
-})
-
-Router.post('/', (req, res, next) => {
-    User.create(req.body)
+    User.findOne({ include: Address })
         .then(user => res.send(user))
-        .catch(next)
-})
-
-Router.delete('/:id', (req, res, next) => {
-    User.destroy({ where: { id: req.params.id }})
-        .then(() => res.sendStatus(204))
         .catch(next)
 })
 

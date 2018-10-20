@@ -1,30 +1,29 @@
-import { LOAD_INITIAL_ADDRESSES, LOAD_INITIAL_USERS, CREATE_ADDRESS, DELETE_ADDRESS } from './constants';
+import { SET_AUTH, DELETE_AUTH, CREATE_ADDRESS, DELETE_ADDRESS} from './constants';
 import axios from 'axios';
 
 
-const _loadInitialAddresses = addresses => ({
-    type: LOAD_INITIAL_ADDRESSES,
-    addresses
+const _setAuth = auth => ({
+    type: SET_AUTH,
+    auth
 })
 
-export const loadInitialAddresses = () => (
-    dispatch => (
-        axios.get('/api/addresses')
-            .then(res => res.data)
-            .then(addresses => dispatch(_loadInitialAddresses(addresses)))
-    )
-)
-
-const _loadInitialUsers = users => ({
-    type: LOAD_INITIAL_USERS,
-    users
-})
-
-export const loadInitialUsers = () => (
+export const setAuth = () => (
     dispatch => (
         axios.get('/api/users')
             .then(res => res.data)
-            .then(users => dispatch(_loadInitialUsers(users)))
+            .then(auth => dispatch(_setAuth(auth)))
+    )
+)
+
+const _deleteAuth = auth => ({
+    type: DELETE_AUTH,
+    auth
+})
+
+export const deleteAuth = auth => (
+    dispatch => (
+        axios.delete(`/api/users/${auth.id}`)
+            .then(() => dispatch(_deleteAuth(auth)))
     )
 )
 
@@ -33,9 +32,9 @@ const _createAddress = address => ({
     address
 })
 
-export const createAddress = address => (
+export const createAddress = (address, auth) => (
     dispatch => (
-        axios.post('/api/addresses', address)
+        axios.post('/api/addresses', { ...address, userId: auth.id })
             .then(res => res.data)
             .then(address => dispatch(_createAddress(address)))
     )
