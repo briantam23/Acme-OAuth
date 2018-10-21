@@ -8,11 +8,5 @@ Router.get('/', (req, res, next) => {
         .catch(next)
 })
 
-Router.delete('/:id', (req, res, next) => {
-    User.destroy({ where: { id: req.params.id }})
-        .then(() => res.sendStatus(204))
-        .catch(next)
-})
-
 
 module.exports = Router;

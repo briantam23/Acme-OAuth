@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Button, ListGroup, ListGroupItem } from 'reactstrap';
-import { setAuth, deleteAuth, createAddress, deleteAddress } from '../store/actions';
+import { setAuth, _removeAuth, createAddress, deleteAddress } from '../store/actions';
 
 
 class App extends Component {
@@ -26,7 +26,7 @@ class App extends Component {
         this.setState({ addressName: '' }); 
     }
     render() {
-        const { addresses, auth, deleteAuth, createAddress, deleteAddress } = this.props;
+        const { addresses, auth, _removeAuth, createAddress, deleteAddress } = this.props;
         const { handleChange, handleAdd } = this;
         const { addressName } = this.state;
         return(
@@ -39,7 +39,7 @@ class App extends Component {
                     : (                    
                         <Fragment>
                             <h2 style={{ color: 'white' }} >Welcome { auth.name }!</h2>
-                            <Button onClick={ () => deleteAuth(auth) } color='danger' >Logout</Button>
+                            <Button onClick={ () => _removeAuth(auth) } color='danger' >Logout</Button>
                             <hr/>
                             <form>
                                 <input onChange={ handleChange } value={ addressName } placeholder='Enter a Location' autoFocus ></input>
@@ -66,7 +66,7 @@ class App extends Component {
 
 const mapStateToProps = ({ addresses, auth }) => ({ addresses, auth });
 
-const mapDispatchToProps = ({ setAuth, deleteAuth, createAddress, deleteAddress });
+const mapDispatchToProps = ({ setAuth, _removeAuth, createAddress, deleteAddress });
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -1,4 +1,4 @@
-import { SET_AUTH, DELETE_AUTH, CREATE_ADDRESS, DELETE_ADDRESS} from './constants';
+import { SET_AUTH, REMOVE_AUTH, CREATE_ADDRESS, DELETE_ADDRESS} from './constants';
 import axios from 'axios';
 
 
@@ -15,17 +15,10 @@ export const setAuth = () => (
     )
 )
 
-const _deleteAuth = auth => ({
-    type: DELETE_AUTH,
+export const _removeAuth = auth => ({
+    type: REMOVE_AUTH,
     auth
 })
-
-export const deleteAuth = auth => (
-    dispatch => (
-        axios.delete(`/api/users/${auth.id}`)
-            .then(() => dispatch(_deleteAuth(auth)))
-    )
-)
 
 const _createAddress = address => ({
     type: CREATE_ADDRESS,
